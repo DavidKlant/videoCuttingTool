@@ -32,7 +32,10 @@ def convertCsvToListOfDicts(csv):
     return resultList
 
 ######## MAIN #########
-print("Please make sure the Folder with the base Videos & the csv are in the UserInput Folder.")
+os.system("mkdir output")  
+os.system("mkdir UserInput")       
+
+print("\n\nPlease make sure the Folder with the base Videos & the csv are in the UserInput Folder.")
 print("All files in the folders UserInput & output will be ignored by git.\n")
 # get user input (csv name & seconds to cut)
 csvFileName = "UserInput/" + input("How is your csv called? (incl. \".csv\") ")
