@@ -33,13 +33,18 @@ def convertCsvToListOfDicts(csv):
 
 ######## MAIN #########
 os.system("mkdir output")  
-os.system("mkdir UserInput")       
+os.system("mkdir UserInput") 
 
-print("\n\nPlease make sure the Folder with the base Videos & the csv are in the UserInput Folder.")
-print("All files in the folders UserInput & output will be ignored by git.\n")
+print("\n\nPlease make sure the csv is in the UserInput Folder.")
+print("\nPlease replace the text in basePath.txt with the path of your videos.")
+print("\nAll files in the folders UserInput & output will be ignored by git.\n\n")
 # get user input (csv name & seconds to cut)
 csvFileName = "UserInput/" + input("How is your csv called? (incl. \".csv\") ")
 secondsToCut = input("How many seconds per Video? ")
+
+# load basePath
+baseVideoPath = open("basePath.txt", "r").read()
+
 
 # read csv & convert to List<Dict>
 csv = pandas.read_csv(csvFileName)
@@ -55,6 +60,6 @@ for map in csvMapList:
         secondsToCut = "0" + secondsToCut
     length = "00:00:" + secondsToCut + ".0"
 
-    relPath = "UserInput/" + map["relPath"]
+    relPath = baseVideoPath + "/" + map["relPath"]
 
     os.system(f"ffmpeg -ss {startStamp} -i {relPath} -c copy -t {length} output/{fileName}.mp4")
