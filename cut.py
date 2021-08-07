@@ -54,7 +54,7 @@ csvMapList = convertCsvToListOfDicts(csv)
 # cut all entrys (starting at timestamp for x seconds (x = secondsToCut from user input))
 for map in csvMapList:
     fileName = map["username"] + "-" + map["relPath"].replace("/", "-").replace(".mp4", "") + "-" + map["timestamp"].replace(":", "-") + "-" + map["situation"] + "-" + map["comment"]
-    
+
     startStamp = "00:" + map["timestamp"] + ".0"
 
     if (len(secondsToCut) == 1):
@@ -63,5 +63,12 @@ for map in csvMapList:
 
     relPath = baseVideoPath + "/" + map["relPath"]
 
+    # if timestamp == alles -> copy entire video (with new name)
+    if map["timestamp"] == "alles":
+        cmd = f"cp {relPath} {baseVideoPath}/output/{fileName}.mp4"
+        os.system(cmd)
+        continue
+
+    # cmd works even if clip is shorter than startStamp + secondsToCut. In that case the clip stops in the end
     cmd = f"ffmpeg -ss {startStamp} -i {relPath} -c copy -t {length} {baseVideoPath}/output/{fileName}.mp4"
     os.system(cmd)
