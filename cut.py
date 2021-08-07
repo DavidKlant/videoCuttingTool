@@ -65,7 +65,14 @@ for map in csvMapList:
 
     # if timestamp == alles -> copy entire video (with new name)
     if map["timestamp"] == "alles":
-        cmd = f"cp {relPath} {baseVideoPath}/output/{fileName}.mp4"
+        # check if file is an image instead of a video
+        ending = ".mp4"
+        if ".jpg" in relPath:
+            ending = ".jpg"
+        if ".png" in relPath:
+            ending = ".png"
+
+        cmd = f"cp {relPath} {baseVideoPath}/output/{fileName}{ending}"
         os.system(cmd)
         continue
 
